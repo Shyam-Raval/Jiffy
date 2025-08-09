@@ -24,7 +24,7 @@ fun HomeScreen() {
             val focusManager = LocalFocusManager.current
             //categoris
             //featured
-           //featured products
+           //featured product
 
         }
 
