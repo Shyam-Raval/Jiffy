@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.jiffy.screens.cart.CartScreen
 import com.example.jiffy.screens.home.BottomNavigationBar
 import com.example.jiffy.screens.home.HomeScreen
 import com.example.jiffy.screens.home.MyTopAppBar
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JiffyTheme {
                 Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
-                    HomeScreen()
+                    CartScreen()
                 }
             }
         }
