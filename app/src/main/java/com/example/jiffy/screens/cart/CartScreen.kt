@@ -19,10 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.jiffy.screens.home.Product
 
 @Composable
-fun CartScreen(modifier: Modifier = Modifier) {
+fun CartScreen(navController: NavController) {
     val cartItems = listOf(
         Product(
             "3",

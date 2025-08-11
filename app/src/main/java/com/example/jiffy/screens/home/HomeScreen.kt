@@ -18,13 +18,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.jiffy.model.Category
 
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavController,
+    onProfileClick:() -> Unit,
+    onCartClick:() -> Unit,
+
+) {
     Scaffold(
-        topBar = { MyTopAppBar() },
+        topBar = { MyTopAppBar(onProfileClick,onCartClick) },
         bottomBar = { BottomNavigationBar() }
     ) { paddingValues ->
         Column(modifier = Modifier
