@@ -1,0 +1,65 @@
+package com.example.jiffy.screens.products
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.jiffy.screens.home.Product
+import com.example.jiffy.screens.navigation.Screens
+
+@Composable
+fun ProductScreen(
+    categoryId: String,
+    navController: NavController
+) {
+    //fetch models from view model
+    //collect the products from view model
+    val products = listOf(
+        Product("1", "Smart Phone", 999.99, "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg"),
+        Product("1", "Laptop", 11999.99, "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg"),
+        Product("1", "Tablet", 2999.99, "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg")
+    )
+    //display product
+    Column(modifier = Modifier.fillMaxSize()) {
+        Text(
+            text = "Products of Category ID: $categoryId",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(16.dp)
+        )
+        //if no produt
+        if (products.isEmpty()) {
+            Text(
+                text = "No Product Found!",
+                modifier = Modifier.padding(16.dp)
+
+            )
+
+
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                items(products) { product ->
+                    ProductItem( product = product,
+                        onClick = {
+                            //navigate
+                            navController.navigate(Screens.ProductDetails.createRoute(product.id))
+                        },
+                        onAddToCart = {
+                            //add product to cart // using room db
+                        })
+                }
+            }
+        }
+    }
+
+}

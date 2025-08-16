@@ -15,9 +15,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.jiffy.screens.cart.CartScreen
+import com.example.jiffy.screens.categories.CategoryScreen
 import com.example.jiffy.screens.home.BottomNavigationBar
 import com.example.jiffy.screens.home.HomeScreen
 import com.example.jiffy.screens.home.MyTopAppBar
+import com.example.jiffy.screens.navigation.Screens
+import com.example.jiffy.screens.products.ProductDetailsScreens
+import com.example.jiffy.screens.products.ProductScreen
 import com.example.jiffy.screens.profile.ProfileScreen
 import com.example.jiffy.ui.theme.JiffyTheme
 
@@ -40,15 +44,32 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 navController = navController,
                                 onProfileClick = { navController.navigate("Profile") },
-                                onCartClick = { navController.navigate("Cart") }
+                                onCartClick = { navController.navigate(Screens.Cart.route) }
                             )
                         }
-                        composable("Cart") {
+                        composable(Screens.Cart.route) {
                             CartScreen(navController = navController)
                         }
-                        composable("Profile") {
+                        composable(Screens.Profile.route) {
                             ProfileScreen({}, navController = navController)
                         }
+                        composable("Categories") {
+                            CategoryScreen(navController)
+                        }
+                        composable(Screens.ProductDetails.route) {
+                            val productId = it.arguments?.getString("productId")
+                            if(productId != null){
+                                ProductDetailsScreens(productId)
+                            }
+                        }
+
+                        composable(Screens.ProductList.route) {
+                            val categoryId = it.arguments?.getString("categoryId")
+                            if(categoryId != null){
+                                ProductScreen(categoryId , navController = navController)
+                            }
+                        }
+
 
                     }
 

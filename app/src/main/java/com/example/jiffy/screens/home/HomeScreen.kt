@@ -52,11 +52,9 @@ fun HomeScreen(
                     .padding(16.dp)
 
             )
-            //Search Result Section
 
-            //Categories Section
             SectionTitle("Categories", "See All") {
-
+                navController.navigate("Categories")
             }
 
             //Featured Products Section
