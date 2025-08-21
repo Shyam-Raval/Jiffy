@@ -14,6 +14,13 @@ sealed class Screens(val route : String){
     }
 
     object CategoryList: Screens("category_list")
+    //object
+
+    object Login: Screens("Login")
+
+    object SignUp:Screens("SignUp")
+
+    object Home:Screens("Home")
 
 
 

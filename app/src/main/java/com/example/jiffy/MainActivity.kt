@@ -23,6 +23,7 @@ import com.example.jiffy.screens.navigation.Screens
 import com.example.jiffy.screens.products.ProductDetailsScreens
 import com.example.jiffy.screens.products.ProductScreen
 import com.example.jiffy.screens.profile.ProfileScreen
+import com.example.jiffy.screens.profile.SignUpScreen
 import com.example.jiffy.ui.theme.JiffyTheme
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +41,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = "Home"
                     ) {
-                        composable("Home") {
+                        composable(Screens.Home.route) {
                             HomeScreen(
                                 navController = navController,
                                 onProfileClick = { navController.navigate("Profile") },
@@ -69,6 +70,21 @@ class MainActivity : ComponentActivity() {
                                 ProductScreen(categoryId , navController = navController)
                             }
                         }
+                        composable(Screens.SignUp.route) {
+                            SignUpScreen(
+                                onNavigateToLogin = {
+                                    navController.navigate(Screens.Login.route)
+                                },
+                                onSignupSuccess = {
+                                    navController.navigate(Screens.Home.route)
+                                }
+                            )
+                        }
+
+                        composable(Screens.CategoryList.route){
+                            CategoryScreen(navController)
+                        }
+
 
 
                     }
