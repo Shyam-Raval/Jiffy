@@ -13,13 +13,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jiffy.model.Category
+import com.example.jiffy.screens.navigation.Screens
+import com.example.jiffy.viewModels.CategoryViewModel
+import com.example.jiffy.viewModels.ProductViewModel
 
 
 @Composable
@@ -27,6 +32,8 @@ fun HomeScreen(
     navController: NavController,
     onProfileClick:() -> Unit,
     onCartClick:() -> Unit,
+    productViewModel: ProductViewModel = hiltViewModel(),
+    categoryViewModel : CategoryViewModel = hiltViewModel()
 
 ) {
     Scaffold(
@@ -58,17 +65,13 @@ fun HomeScreen(
             }
 
             //Featured Products Section
-            //mock
-            val categories: List<Category> = listOf(
-                Category(
-                    1,
-                    "Electronics",
-                    "https://cdn-icons-png.flaticon.com/512/1555/1555401.png"
-                ),
-                Category(2, "Clothing", "https://cdn-icons-png.flaticon.com/512/2935/2935183.png"),
-                Category(3, "")
 
-            )
+            //this is a stateflow  , we return a stateflow of list of categories
+            val categoriesState = categoryViewModel.categories.collectAsState()
+            val categories = categoriesState.value //compose watches for changes
+            // categories in now just a list
+
+
             val selectedCategory = remember { mutableStateOf(0) }
 
             LazyRow(
@@ -97,19 +100,20 @@ fun HomeScreen(
 
             }
 
-            val productList = listOf(
-                Product("1","Smartphone",999.99 , "https://s.alicdn.com/@sc04/kf/Ha00a1d79fb2b419080c34ff99eda0819F.jpg_720x720q50.jpg"),
-                Product("2","Laptop",1499.99 , "https://laptopmedia.com/wp-content/uploads/2022/09/1-23-e1662987139646-680x427.jpg")
+           productViewModel.getAllProductsInFirestore()
 
-            )
-
+            val allProductState = productViewModel.allProduct.collectAsState()
+            val allproductsFound = allProductState.value
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(productList){ product->
+                items(allproductsFound){ product->
                     FeaturedProductCard(product) {
                         //**click event
+                        navController.navigate(
+                            Screens.ProductDetails.createRoute(product.id)
+                        )
                     }
                 }
             }

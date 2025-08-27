@@ -45,9 +45,9 @@ class FirestoreRepository @Inject constructor(
 
         }
 
-    suspend fun getProductByCategory(categoryId:String): List<Product>{
+    suspend fun getProductsByCategory(categoryId:String): List<Product>{
         return try{
-            val result = firestore.collection("product")
+            val result = firestore.collection("products")
                 .whereEqualTo("categoryId" , categoryId)
                 .get()
                 .await()
