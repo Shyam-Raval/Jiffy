@@ -9,24 +9,34 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jiffy.screens.home.Product
 import com.example.jiffy.screens.navigation.Screens
+import com.example.jiffy.viewModels.ProductViewModel
 
 @Composable
 fun ProductScreen(
     categoryId: String,
-    navController: NavController
+    navController: NavController,
+    productViewModel : ProductViewModel = hiltViewModel()
 ) {
     //fetch models from view model
+    LaunchedEffect(categoryId) {
+        productViewModel.fetchProducts(categoryId)
+
+
+    }
     //collect the products from view model
-    val products = listOf(
-        Product("1", "Smart Phone", 999.99, "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg"),
-        Product("1", "Laptop", 11999.99, "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg"),
-        Product("1", "Tablet", 2999.99, "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg")
-    )
+    val productState = productViewModel.products.collectAsState()
+    val products = productState.value
+
+
+
     //display product
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
@@ -55,7 +65,10 @@ fun ProductScreen(
                             navController.navigate(Screens.ProductDetails.createRoute(product.id))
                         },
                         onAddToCart = {
-                            //add product to cart // using room db
+                            //add product to cart
+                            // using room db
+
+
                         })
                 }
             }

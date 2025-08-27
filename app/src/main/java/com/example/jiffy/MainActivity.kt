@@ -25,7 +25,10 @@ import com.example.jiffy.screens.products.ProductScreen
 import com.example.jiffy.screens.profile.ProfileScreen
 import com.example.jiffy.screens.profile.SignUpScreen
 import com.example.jiffy.ui.theme.JiffyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

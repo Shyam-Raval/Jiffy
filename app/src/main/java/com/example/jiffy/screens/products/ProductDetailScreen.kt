@@ -17,28 +17,30 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.jiffy.screens.home.Product
+import com.example.jiffy.viewModels.ProductDetailsViewModel
 
 @Composable
 fun ProductDetailsScreens(
     productId: String,
+    productViewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
-
-    val myDummyProduct = Product(
-        id = "1",
-        name = "Smart Phone",
-        price = 999.9,
-        imageUrl = "https://www.designinfo.in/wp-content/uploads/2023/01/Apple-iPhone-14-Pro-Mobile-Phone-493177786-i-1-1200Wx1200H-optimized.jpeg"
-    )
-
-    if (myDummyProduct == null) {
+    LaunchedEffect(productId) {
+        productViewModel.fetchProductDetails(productId)
+    }
+    val productState = productViewModel.product.collectAsState()
+    val product = productState.value
+    if (product == null) {
         Text(text = "Product not found")
     } else {
         Column(
@@ -48,7 +50,7 @@ fun ProductDetailsScreens(
         ) {
             // Product image
             Image(
-                painter = rememberAsyncImagePainter(model = myDummyProduct.imageUrl),
+                painter = rememberAsyncImagePainter(model = product.imageUrl),
                 contentScale = ContentScale.Crop, // Crop image nicely
                 contentDescription = "Product image",
                 modifier = Modifier
@@ -61,7 +63,7 @@ fun ProductDetailsScreens(
 
             // Product name
             Text(
-                text = myDummyProduct.name,
+                text = product.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -70,7 +72,7 @@ fun ProductDetailsScreens(
 
             // Product price
             Text(
-                text = "$${myDummyProduct.price}",
+                text = "$${product.price}",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -79,7 +81,7 @@ fun ProductDetailsScreens(
 
             // Product description / category (placeholder for now)
             Text(
-                text = myDummyProduct.categoryId ?: "No description found",
+                text = product.categoryId ?: "No description found",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Normal
             )

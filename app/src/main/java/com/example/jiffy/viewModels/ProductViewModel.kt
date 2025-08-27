@@ -18,13 +18,15 @@ class ProductViewModel @Inject constructor(
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> get() = _products
 
+
+
     fun fetchProducts(categoryId: String) {
         viewModelScope.launch {
             try {
                 val products = repository.getProductsByCategory(categoryId)
                 _products.value = products
             } catch (e: Exception) {
-                Log.e("Tagy", "Error fetching products")
+                Log.e("Tagy", "Error fetching products ${e.message}")
             }
 
 

@@ -85,6 +85,9 @@ fun HomeScreen(
                         isSelected = selectedCategory.value == it,
                         onClick = {
                             selectedCategory.value = it
+                            navController.navigate(
+                                Screens.ProductList.createRoute(categories[it].id.toString())
+                            )
                         }
                     )
 
@@ -97,7 +100,9 @@ fun HomeScreen(
 
 
             SectionTitle("Featured", "See All") {
-
+                navController.navigate(
+                    Screens.CategoryList.route
+                )
             }
 
            productViewModel.getAllProductsInFirestore()
