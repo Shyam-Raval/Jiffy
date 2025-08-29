@@ -65,7 +65,7 @@
                         Text(
                             text = item.name,
                             modifier = Modifier.padding(horizontal = 8.dp),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodySmall
                         )
 
                     }

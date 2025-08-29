@@ -1,5 +1,6 @@
 package com.example.jiffy.screens.products
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,13 +18,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jiffy.screens.home.Product
 import com.example.jiffy.screens.navigation.Screens
+import com.example.jiffy.viewModels.CartViewModel
 import com.example.jiffy.viewModels.ProductViewModel
 
 @Composable
 fun ProductScreen(
     categoryId: String,
     navController: NavController,
-    productViewModel : ProductViewModel = hiltViewModel()
+    productViewModel : ProductViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     //fetch models from view model
     LaunchedEffect(categoryId) {
@@ -67,6 +70,9 @@ fun ProductScreen(
                         onAddToCart = {
                             //add product to cart
                             // using room db
+
+                            cartViewModel.addToCart(product)
+                            Log.v("TAGY","Product Added to Cart!")
 
 
                         })

@@ -28,12 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.jiffy.screens.home.Product
+import com.example.jiffy.viewModels.CartViewModel
 import com.example.jiffy.viewModels.ProductDetailsViewModel
 
 @Composable
 fun ProductDetailsScreens(
     productId: String,
-    productViewModel: ProductDetailsViewModel = hiltViewModel()
+    productViewModel: ProductDetailsViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel(),
+
 ) {
     LaunchedEffect(productId) {
         productViewModel.fetchProductDetails(productId)
@@ -90,7 +93,7 @@ fun ProductDetailsScreens(
         // Floating "Add to cart" button
         IconButton(
             onClick = {
-                // TODO: Add product to cart (Room DB or state management)
+                cartViewModel.addToCart(product)
             },
             modifier = Modifier
                 .padding(16.dp)
