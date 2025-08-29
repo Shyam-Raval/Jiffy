@@ -89,4 +89,27 @@ class FirestoreRepository @Inject constructor(
         }
     }
 
+
+    suspend fun searchProducts(query:String):List<Product>{
+        return try {
+            val searchQuery = query.lowercase()
+
+            //get all prod and filter localy
+            val allProducts = firestore.collection("products")
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(Product::class.java) }
+            //filter  localy
+
+            allProducts.filter{
+                product -> product.name.lowercase().contains(searchQuery)
+            }
+
+        } catch (e:Exception){
+            Log.e("TAGY","Error searching ${e.message}")
+            emptyList()
+        }
+    }
+
 }

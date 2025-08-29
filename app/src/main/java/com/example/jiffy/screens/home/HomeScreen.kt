@@ -25,24 +25,28 @@ import com.example.jiffy.model.Category
 import com.example.jiffy.screens.navigation.Screens
 import com.example.jiffy.viewModels.CategoryViewModel
 import com.example.jiffy.viewModels.ProductViewModel
+import com.example.jiffy.viewModels.SearchViewModel
 
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    onProfileClick:() -> Unit,
-    onCartClick:() -> Unit,
+    onProfileClick: () -> Unit,
+    onCartClick: () -> Unit,
     productViewModel: ProductViewModel = hiltViewModel(),
-    categoryViewModel : CategoryViewModel = hiltViewModel()
+    categoryViewModel: CategoryViewModel = hiltViewModel(),
+    searchViewModel: SearchViewModel = hiltViewModel()
 
 ) {
     Scaffold(
-        topBar = { MyTopAppBar(onProfileClick,onCartClick) },
+        topBar = { MyTopAppBar(onProfileClick, onCartClick) },
         bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             //search
             val searchQuery = remember { mutableStateOf("") }
             val focusManager = LocalFocusManager.current
@@ -51,7 +55,8 @@ fun HomeScreen(
                 onQueryChange = { searchQuery.value = it },
                 onSearch = {
 
-                    /*search logic*/
+                    searchViewModel.searchProducts(searchQuery.value)
+                    focusManager.clearFocus()
 
                 },
                 modifier = Modifier
@@ -59,10 +64,12 @@ fun HomeScreen(
                     .padding(16.dp)
 
             )
-
-            SectionTitle("Categories", "See All") {
-                navController.navigate("Categories")
+            if (searchQuery.value.isNotBlank()){
+                SearchResultSection(navController = navController , searchViewModel = searchViewModel)
             }
+                SectionTitle("Categories", "See All") {
+                    navController.navigate("Categories")
+                }
 
             //Featured Products Section
 
@@ -105,7 +112,7 @@ fun HomeScreen(
                 )
             }
 
-           productViewModel.getAllProductsInFirestore()
+            productViewModel.getAllProductsInFirestore()
 
             val allProductState = productViewModel.allProduct.collectAsState()
             val allproductsFound = allProductState.value
@@ -113,7 +120,7 @@ fun HomeScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(allproductsFound){ product->
+                items(allproductsFound) { product ->
                     FeaturedProductCard(product) {
                         //**click event
                         navController.navigate(

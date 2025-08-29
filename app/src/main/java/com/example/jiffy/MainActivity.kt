@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(Screens.Login.route)
                             }, navController = navController)
                         }
-                        composable("Categories") {
+                        composable(Screens.CategoryList.route) {
                             CategoryScreen(navController ,
                                 onCartClick = {
                                     navController.navigate(Screens.Cart.route)
