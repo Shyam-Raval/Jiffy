@@ -15,41 +15,42 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.jiffy.screens.navigation.Screens
 
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(
+    navController : NavController
+) {
     val currentRoute = ""
     val items = listOf(
         BottomNavItem(
             title = "Home",
             icon = Icons.Default.Home,
-            route = "Home"
+            route = Screens.Home.route
         ),
         BottomNavItem(
             title = "Category",
             icon = Icons.Default.Search,
-            route = "Cart"
+            route = Screens.CategoryList.route
         ),
-        BottomNavItem(
-            title = "Wishlist",
-            icon = Icons.Default.Favorite,
-            route = "Cart",
-            badgeCount = 5
-        ),
+
         BottomNavItem(
             title = "Cart",
             icon = Icons.Default.ShoppingCart,
-            route = "Cart",
+            route = Screens.Cart.route,
             badgeCount = 3
         ),
         BottomNavItem(
             title = "Profile",
             icon = Icons.Default.Person,
-            route = "Profile",
+            route = Screens.Profile.route,
         ),
 
     )
@@ -58,6 +59,9 @@ fun BottomNavigationBar() {
         containerColor = Color.White,
         tonalElevation = 8.dp
     ){
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         items.forEach{item ->
             NavigationBarItem(
                 icon = {
@@ -82,7 +86,14 @@ fun BottomNavigationBar() {
                 },
                 label = { Text(item.title) },
                 selected = currentRoute== item.route,
-                onClick = {  },
+                onClick = {
+                    //navigating b/w screens
+                    navController.navigate(item.route){
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
+                },
+                alwaysShowLabel = true
 
             )
         }

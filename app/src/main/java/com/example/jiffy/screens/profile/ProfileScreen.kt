@@ -20,20 +20,28 @@
     import androidx.compose.material3.MaterialTheme
     import androidx.compose.material3.Text
     import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.getValue
+    import androidx.compose.runtime.mutableStateOf
+    import androidx.compose.runtime.remember
     import androidx.compose.ui.Alignment
     import androidx.compose.ui.Modifier
     import androidx.compose.ui.draw.clip
     import androidx.compose.ui.text.font.Font
     import androidx.compose.ui.text.font.FontWeight
     import androidx.compose.ui.unit.dp
+    import androidx.hilt.navigation.compose.hiltViewModel
     import androidx.navigation.NavController
+    import com.example.jiffy.viewModels.AuthViewModel
 
     @Composable
     fun ProfileScreen(
         onSignOut: () -> Unit,
-        navController: NavController
+        navController: NavController,
+        authViewModel: AuthViewModel = hiltViewModel()
     ) {
-        val currentUser = UserProfile("77", "shyam raval", "shyam.raval2005@gmail.com")
+     //   val currentUser = UserProfile("77", "shyam raval", "shyam.raval2005@gmail.com")
+        val currentUser by remember{ mutableStateOf(authViewModel.currentUser) }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -63,14 +71,14 @@
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = currentUser.name ,
+                text = currentUser?.name.toString(),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = currentUser.email,
+                text = currentUser?.email.toString(),
                 style = MaterialTheme.typography.bodyMedium
             )
 

@@ -6,6 +6,9 @@ import com.example.jiffy.repositories.CartRepository
 import com.example.jiffy.room.AppDatabase
 import com.example.jiffy.room.CartDao
 import com.example.jiffy.screens.navigation.Screens
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -39,6 +42,10 @@ object AppModule{
             CartRepository{
         return CartRepository(cartDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = Firebase.auth
 
 
 

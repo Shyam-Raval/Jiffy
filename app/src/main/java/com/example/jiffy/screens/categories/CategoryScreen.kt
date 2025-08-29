@@ -20,14 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.jiffy.model.Category
 import com.example.jiffy.screens.navigation.Screens
 import com.example.jiffy.viewModels.CategoryViewModel
 
 @Composable
 fun CategoryScreen(
     navController: NavController,
-    categoryViewModel: CategoryViewModel = hiltViewModel()
+    categoryViewModel: CategoryViewModel = hiltViewModel(),
+    onCartClick: ()->Unit = {},
+    onProfileClick:() -> Unit = {}
 ) {
     val categoriesState = categoryViewModel.categories.collectAsState()
     val categories = categoriesState.value

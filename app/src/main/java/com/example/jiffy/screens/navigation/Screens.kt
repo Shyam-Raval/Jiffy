@@ -20,6 +20,8 @@ sealed class Screens(val route : String){
 
     object SignUp:Screens("SignUp")
 
+
+
     object Home:Screens("Home")
 
 

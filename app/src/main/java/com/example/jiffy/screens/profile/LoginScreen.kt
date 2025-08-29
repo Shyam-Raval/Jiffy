@@ -15,6 +15,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +29,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import com.example.jiffy.viewModels.AuthViewModel
 
 
 @Preview(showBackground = true , showSystemUi = true)
@@ -34,14 +39,21 @@ import androidx.compose.ui.unit.dp
 fun LoginScreen(
     onNavigateToSignUp: () -> Unit = {},
     onLoginSuccess: () -> Unit = {},
+    authViewModel: AuthViewModel = hiltViewModel()
 
     ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val authState = false
+    val authState by authViewModel.authState.collectAsState()
 
-    if (authState) {
-        onLoginSuccess()
+//    if (authState) {
+//        onLoginSuccess()
+//    }
+
+    LaunchedEffect(authState) {
+        if(authState is AuthViewModel.AuthState.Success){
+            onLoginSuccess()
+        }
     }
 
     Column(
@@ -88,7 +100,9 @@ fun LoginScreen(
         )
         Spacer(Modifier.height(16.dp))
         Button(
-            onClick = {},
+            onClick = {
+                authViewModel.login(email , password)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

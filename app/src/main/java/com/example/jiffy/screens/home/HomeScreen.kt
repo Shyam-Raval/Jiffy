@@ -38,7 +38,7 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = { MyTopAppBar(onProfileClick,onCartClick) },
-        bottomBar = { BottomNavigationBar() }
+        bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
         Column(modifier = Modifier
             .fillMaxSize()
