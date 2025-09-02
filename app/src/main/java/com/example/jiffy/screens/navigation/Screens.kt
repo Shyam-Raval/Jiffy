@@ -9,7 +9,7 @@ sealed class Screens(val route : String){
 
     object Profile : Screens("Profile")
 
-    object ProductList : Screens("product_List/{categoryId}"){
+    object ProductList : Screens("product_list/{categoryId}"){
         fun createRoute(categoryId:String) = "product_list/$categoryId"
     }
 

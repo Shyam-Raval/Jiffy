@@ -68,7 +68,7 @@ fun HomeScreen(
                 SearchResultSection(navController = navController , searchViewModel = searchViewModel)
             }
                 SectionTitle("Categories", "See All") {
-                    navController.navigate("Categories")
+                    navController.navigate(Screens.CategoryList.route)
                 }
 
             //Featured Products Section
