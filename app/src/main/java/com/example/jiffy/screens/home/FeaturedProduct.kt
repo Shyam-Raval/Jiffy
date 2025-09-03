@@ -38,7 +38,7 @@ fun FeaturedProductCard(product: Product, onProductClick: () -> Unit) {
     ) {
         Box() {
             DiscountBadge(
-                discountPercent = 5,
+                discountPercent =  (10..15).random(),
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(8.dp)

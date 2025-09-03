@@ -15,19 +15,28 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.jiffy.screens.navigation.Screens
+import com.example.jiffy.viewModels.CartViewModel
 
 @Composable
 fun BottomNavigationBar(
-    navController : NavController
+    navController : NavController,
+
 ) {
+    val cartViewModel: CartViewModel = hiltViewModel()
+    val cartItemsState = cartViewModel.cartItems.collectAsState(initial = emptyList())
+
+    val cartItems = cartItemsState.value // This is your List<Product>
+
     val currentRoute = ""
     val items = listOf(
         BottomNavItem(
@@ -45,7 +54,7 @@ fun BottomNavigationBar(
             title = "Cart",
             icon = Icons.Default.ShoppingCart,
             route = Screens.Cart.route,
-            badgeCount = 3
+            badgeCount = cartItems.size
         ),
         BottomNavItem(
             title = "Profile",
